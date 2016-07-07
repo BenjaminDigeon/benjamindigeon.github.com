@@ -1,0 +1,25 @@
+<% blog.articles.each_with_index do |article,index| %>
+<article>
+  <% if index%2==0 %>
+  <div id="grey">
+    <% else %>
+    <div id="white">
+      <% end %>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <a href="<%= article.url %>"><h1><%= article.title %></h1></a>
+            <p>
+              <time><%= article.date.strftime('%b %e %Y') %></time>
+              by <a href="/about">Benjamin Digeon</a> -
+              <%= article.data.reading_time %> min read
+            </p>
+            <hr>
+            <%= article.summary %>
+            <p><a href="<%= article.url %>">Read more...</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  <% end %>

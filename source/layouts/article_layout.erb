@@ -1,0 +1,29 @@
+<% wrap_layout :layout do %>
+  <article>
+    <div id="white">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <h1><%= current_page.title %></h1>
+            <p>
+              <time><%= current_page.date.strftime('%b %e %Y') %></time>
+              by <a href="/about">Benjamin Digeon</a> -
+              <%= current_page.data.reading_time %> min read
+            </p>
+            <hr>
+            <%= yield %>
+            <hr>
+            <p> Categories :
+              <% current_page.tags.each do |tag| %>
+                <%= tag %>
+              <% end %>
+            </p>
+            <hr>
+            <%= disqus %>
+            <%= disqus_count %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+<% end %>
