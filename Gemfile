@@ -16,7 +16,7 @@ gem 'middleman-google-analytics'
 gem 'middleman-syntax'
 gem 'redcarpet', '~> 3.3', '>= 3.3.3'
 gem "middleman-disqus"
-gem 'middleman-deploy'
+gem 'middleman-deploy', "~> 2.0.0.pre.alpha"
 
 # For feed.xml.builder
 gem "builder", "~> 3.0"
