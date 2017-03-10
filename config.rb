@@ -1,3 +1,6 @@
+require 'slim'
+require 'better_errors'
+
 # ---- Global configuration ---- #
 
 Time.zone = "Paris"
@@ -18,11 +21,14 @@ activate :blog do |blog|
   blog.taglink = "categories/{tag}.html"
   blog.summary_length = 250
   blog.default_extension = ".md"
-  blog.layout = 'article_layout'
+  blog.layout = "article_layout"
 end
 
 # ----- RSS Feed ----- #
 page "/feed.xml", layout: false
+
+# ----- Slim ------#
+Slim::Engine.set_default_options :pretty => true
 
 # ----- Pretty Urls ----- #
 
@@ -60,7 +66,9 @@ end
 
 # Development-specific configurations
 configure :development do
-   activate :livereload # Reload the browser automatically whenever files change
+  activate :livereload # Reload the browser automatically whenever files change
+  use BetterErrors::Middleware
+  BetterErrors.application_root = __dir__
 end
 
 # Build-specific configurations
@@ -70,4 +78,7 @@ configure :build do
 
   # Minify Javascript on build
   activate :minify_javascript
+
+  # Compress
+  activate :gzip
 end

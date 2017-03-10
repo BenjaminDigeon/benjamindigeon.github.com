@@ -1,0 +1,23 @@
+= wrap_layout :layout do
+  article
+    #white
+      .container
+        .row
+          .col-lg-8.col-lg-offset-2
+            h1 = current_page.title
+            p
+              time = current_page.date.strftime('%b %e %Y')
+              |  by 
+              a href="/about" Benjamin Digeon 
+              = current_page.data.reading_time
+              |  min read
+            hr
+            = yield
+            hr
+            p 
+              | Categories :
+              - current_page.tags.each do |tag|
+                |  #{tag}
+            hr
+            = disqus
+            = disqus_count

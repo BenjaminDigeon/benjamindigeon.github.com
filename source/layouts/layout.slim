@@ -1,0 +1,9 @@
+doctype html
+html lang="en"
+  head
+    = partial "shared/head"
+  body
+    = partial "shared/navbar"
+    = yield
+    = partial "shared/footer"
+    = google_analytics_tag

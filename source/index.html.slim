@@ -1,0 +1,25 @@
+= partial "shared/welcome"
+
+- blog.articles[0...3].each_with_index do |article, index|
+  article id=(index%2==0 ? 'white' : 'grey')
+    .container
+      .row
+        .col-lg-8.col-lg-offset-2
+          a href="#{article.url}"
+            h1 = article.title
+          p
+            time = article.date.strftime('%b %e %Y ')
+            |by 
+            a href="/about" Benjamin Digeon 
+            = article.data.reading_time
+            |min read 
+          hr
+          = article.summary
+          p
+            a href="#{article.url}" Read more...
+
+.container.pt
+  .row.mt
+    .col-lg-6.col-lg-offset-3.centered
+      p
+        a href="/blog" See more blog articles

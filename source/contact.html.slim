@@ -1,0 +1,23 @@
+.container.pt
+  .row.mt
+    .col-lg-6.col-lg-offset-3.centered
+      h3 CONTACT ME
+      hr
+      p You can contact me through this form and I will try to answer you as soon as possible.
+
+  .row.mt
+    .col-lg-8.col-lg-offset-2
+      form role="form" action="//formspree.io/benjamindigeon@gmail.com" method="POST"
+        .form-group
+          input.form-control type="name" name="name" placeholder="Your Name"
+          br
+        .form-group
+          input.form-control type="email" name="_replyto" placeholder="Your email"
+          br
+        .form-group
+          input.form-control type="text" name="_subject" placeholder="Subject"
+          br
+        .form-group
+          textarea.form-control rows="6" name="message" placeholder="Enter your text here"
+          br
+        button.btn.btn-success type="submit" SUBMIT
