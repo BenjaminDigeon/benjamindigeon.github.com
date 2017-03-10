@@ -1,5 +1,6 @@
 require 'slim'
 require 'better_errors'
+require_relative "./lib/build_cleaner"
 
 # ---- Global configuration ---- #
 
@@ -73,6 +74,9 @@ end
 
 # Build-specific configurations
 configure :build do
+  # For solving Middleman 4 build issues
+  activate :build_cleaner
+
   # Minify CSS on build
   activate :minify_css
 
