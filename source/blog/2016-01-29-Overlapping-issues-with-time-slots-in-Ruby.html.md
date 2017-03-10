@@ -1,7 +1,7 @@
 ---
 title: Overlapping issues with time slots in Ruby
 date: 2016-01-29
-tags: Ruby RubyOnRails
+tags: Ruby, Rails
 published: true
 reading_time: 5
 ---

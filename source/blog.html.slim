@@ -10,7 +10,9 @@
             |by 
             a href="/about" Benjamin Digeon 
             = article.data.reading_time
-            |min read 
+            |  min read 
+            - article.tags.each do |tag|
+              .blog-tag  = tag
           hr
           = article.summary
           p

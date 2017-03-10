@@ -11,13 +11,10 @@
               a href="/about" Benjamin Digeon 
               = current_page.data.reading_time
               |  min read
+            - current_page.tags.each do |tag|
+              .blog-tag  = tag
             hr
             = yield
-            hr
-            p 
-              | Categories :
-              - current_page.tags.each do |tag|
-                |  #{tag}
             hr
             = disqus
             = disqus_count

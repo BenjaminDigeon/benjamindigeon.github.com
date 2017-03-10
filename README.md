@@ -14,6 +14,10 @@ At [benjamindigeon.github.io](http://benjamindigeon.github.io/)
 
   bundle exec middleman deploy
 
+## Blogging
+
+  middleman article TITLE
+
 ## Branches
 
   * master : build of the website

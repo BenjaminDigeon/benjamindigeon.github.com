@@ -12,7 +12,9 @@
             |by 
             a href="/about" Benjamin Digeon 
             = article.data.reading_time
-            |min read 
+            |  min read 
+            - article.tags.each do |tag|
+              .blog-tag  = tag
           hr
           = article.summary
           p
@@ -21,5 +23,6 @@
 .container.pt
   .row.mt
     .col-lg-6.col-lg-offset-3.centered
+      hr
       p
         a href="/blog" See more blog articles
