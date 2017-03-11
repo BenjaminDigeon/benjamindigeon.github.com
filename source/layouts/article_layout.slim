@@ -5,14 +5,19 @@
         .row
           .col-lg-8.col-lg-offset-2
             h1 = current_page.title
-            p
-              time = current_page.date.strftime('%b %e %Y')
-              |  by 
-              a href="/about" Benjamin Digeon 
-              = current_page.data.reading_time
-              |  min read
-            - current_page.tags.each do |tag|
-              .blog-tag  = tag
+            .row
+              .col-md-4
+                p
+                  time = current_page.date.strftime('%b %e %Y')
+              .col-md-4
+                p
+                  span.glyphicon.glyphicon-time
+                  |  
+                  = current_page.data.reading_time
+                  |  min read
+              .col-md-4
+                - current_page.tags.each do |tag|
+                  .blog-tag  = tag
             hr
             = yield
             hr

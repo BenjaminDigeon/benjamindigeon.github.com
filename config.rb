@@ -63,6 +63,9 @@ activate :deploy do |deploy|
   deploy.build_before = true
 end
 
+# ----- Disable Rack::ShowExceptions middleware ----- #
+set :show_exceptions, false
+
 # ----- Configurations ----- #
 
 # Development-specific configurations

@@ -5,14 +5,19 @@
         .col-lg-8.col-lg-offset-2
           a href="#{article.url}"
             h1 = article.title
-          p
-            time = article.date.strftime('%b %e %Y ')
-            |by 
-            a href="/about" Benjamin Digeon 
-            = article.data.reading_time
-            |  min read 
-            - article.tags.each do |tag|
-              .blog-tag  = tag
+          .row
+            .col-md-4
+              p
+                time = article.date.strftime('%b %e %Y')
+            .col-md-4
+              p
+                span.glyphicon.glyphicon-time
+                |  
+                = article.data.reading_time
+                |  min read
+            .col-md-4
+              - article.tags.each do |tag|
+                .blog-tag  = tag
           hr
           = article.summary
           p
