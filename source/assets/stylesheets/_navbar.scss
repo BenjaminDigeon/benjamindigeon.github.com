@@ -1,0 +1,40 @@
+.navbar {
+  text-transform: uppercase;
+  margin-bottom: 0px;
+}
+
+.navbar-inverse {
+  padding-bottom: 70px;
+  padding-top: 70px;
+}
+
+.navbar-inverse {
+  background-color: $primary-color;
+  border-color: $primary-border-color;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: $white-color;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #222222;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.navbar-inverse .navbar-brand {
+  color: $white-color;
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: transparent;
+}
+
+.progress-bar-theme {
+  background-color: $primary-color;
+}
