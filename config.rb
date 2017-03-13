@@ -20,7 +20,7 @@ activate :blog do |blog|
   blog.permalink = "{year}-{month}-{day}-{title}.html"
   blog.sources = "{year}-{month}-{day}-{title}.html"
   blog.taglink = "categories/{tag}.html"
-  blog.summary_length = 250
+  blog.summary_length = 500
   blog.default_extension = ".md"
   blog.layout = "article_layout"
 end

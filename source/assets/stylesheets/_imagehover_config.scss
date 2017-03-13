@@ -1,0 +1,13 @@
+// Image hover without figcaption
+// Zoom center in background
+[class^='imghvr-'], [class*=' imghvr-'] {
+  background-color: $primary-color !important;
+  background-image: url('/assets/images/zoom.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+// Image hover with figcaption
+[class^='imghvr-'] figcaption, [class*=' imghvr-'] figcaption {
+  background-color: $primary-color !important;
+}
