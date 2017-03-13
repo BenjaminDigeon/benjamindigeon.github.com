@@ -1,0 +1,11 @@
+.row
+  .col-md-8
+    bd
+      time = post.date.strftime('%b %e %Y')
+    lt
+      |  •  
+      = post.data.reading_time
+      |  min read
+  .col-md-4
+    - post.tags.each do |tag|
+      .blog-tag  = tag

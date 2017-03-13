@@ -5,20 +5,7 @@
         .col-lg-8.col-lg-offset-2
           a href="#{article.url}"
             h1 = article.title
-          .row
-            .col-md-4
-              p
-                bd
-                  time = article.date.strftime('%b %e %Y')
-            .col-md-4
-              p
-                span.glyphicon.glyphicon-time
-                |  
-                = article.data.reading_time
-                |  min read
-            .col-md-4
-              - article.tags.each do |tag|
-                .blog-tag  = tag
+          = partial "shared/blog_header", locals: {post: article}
           hr
           = article.summary
           p

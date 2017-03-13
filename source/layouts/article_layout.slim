@@ -5,20 +5,7 @@
         .row
           .col-lg-8.col-lg-offset-2
             h1 = current_page.title
-            .row
-              .col-md-4
-                p 
-                  bd
-                    time = current_page.date.strftime('%b %e %Y')
-              .col-md-4
-                p
-                  span.glyphicon.glyphicon-time
-                  |  
-                  = current_page.data.reading_time
-                  |  min read
-              .col-md-4
-                - current_page.tags.each do |tag|
-                  .blog-tag  = tag
+            = partial "shared/blog_header", locals: {post: current_page}
             hr
             = yield
             hr
