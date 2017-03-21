@@ -1,10 +1,14 @@
 require 'slim'
 require 'better_errors'
-require_relative "./lib/build_cleaner"
+require "lib/build_cleaner"
+require "lib/custom_helpers"
 
 # ---- Global configuration ---- #
 
 Time.zone = "Paris"
+
+# ---- Helpers ---- #
+helpers CustomHelpers
 
 # ----- Paths ----- #
 

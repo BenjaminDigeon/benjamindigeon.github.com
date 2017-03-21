@@ -1,4 +1,5 @@
 // Fonts
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700);
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 // Configuration
@@ -7,13 +8,14 @@ $primary-color: #1abc9c;
 $primary-border-color: #16a085;
 $white-color: #ffffff;
 $grey-color: #f2f2f2;
-$main-font: 'Montserrat';
+$main-font: 'PT Sans';
+$navbar-font: 'Montserrat';
 
 // Main
 
 body {
   background-color: $white-color;
-  font-family: $main-font, sans-serif;
+  font-family: $main-font, Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: #555;
@@ -21,9 +23,16 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+// Bigger font for big screens
+@media (min-width: 38em) {
+  body {
+    font-size: 20px;
+  }
+}
+
 /* Titles */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $main-font, Helvetica, Arial, sans-serif;
   font-weight: 700;
   color: #333;
 }
@@ -38,7 +47,6 @@ h1 {
 p {
   line-height: 28px;
   margin-bottom: 25px;
-  font-size: 16px;
 }
 
 /* Links */
