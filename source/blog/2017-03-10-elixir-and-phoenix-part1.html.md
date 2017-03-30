@@ -3,7 +3,7 @@ title: Elixir and Phoenix, a little journey inside functional programming - Part
 date: 2017-03-10
 tags: Elixir, Phoenix
 published: false
-reading_time: 2
+reading_time: 5
 ---
 
 ![elixir-logo](/assets/images/blog/2017-03-10-elixir-and-phoenix-part1/elixir-logo.png)
@@ -14,9 +14,7 @@ It was for me the opportunity to try a new web framework, after almost 5 years w
 
 Before seeing in more detail Phoenix, let's talk a little about Elixir.
 
-# Elixir
-
-What it's Elixir :
+First What it's Elixir :
 
 > Elixir is a **functional**, **concurrent**, general-purpose **programming language** that runs on the **Erlang virtual machine** (BEAM).
 >
@@ -44,6 +42,7 @@ Erlang/OTP 19 [erts-8.2] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [
 
 Interactive Elixir (1.4.2) - press Ctrl+C to exit (type h() ENTER for help)
 ```
+
 `iex` stands for **Interactive Elixir**. In `iex` you can type any expression and you will get a result back:
 
 ```elixir
@@ -71,7 +70,7 @@ As far as performances, interpretation will take longer to execute (as elixir ha
 
 Writing a code comment is exactly like ruby with the comment started by `#`.
 
-The we have `text = "hello" <> " world"` with look like a variable assignment and a concatenation of String.
+Then we have `text = "hello" <> " world"` with look like a variable assignment and a concatenation of String.
 
 But is not, **really not !**
 
@@ -90,10 +89,18 @@ iex(3)> "world" = a
 
 This is one of the most important things to remember about functional programming.
 
-<div class="center">
-<blockquote class="twitter-tweet" data-lang="fr">
-<p lang="en" dir="ltr">Every functional programming tutorial... <a href="https://t.co/ckE6cY4YFe">pic.twitter.com/ckE6cY4YFe</a></p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/841650579533369344">14 mars 2017</a>
-</blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8">
-</script>
-</div>
+In this code example we tell elixir than the [tuple](https://hexdocs.pm/elixir/Tuple.html) (a ordered collection of elements) `{a, b}` is a match to the tuple `{:hello, "world"}`.
+
+So elixir will understand that `a` match `:hello` and `b` match `"world"`.
+
+And if we try to match `"world"` with `a` elixir will raise a `MatchError`.
+
+Now, let's take a look at some data structure in elixir.
+
+- list
+- tuple
+- Maps
+- String
+- atom
+- Float
+- Integer
