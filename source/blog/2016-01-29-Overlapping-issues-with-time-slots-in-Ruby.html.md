@@ -3,7 +3,6 @@ title: Overlapping issues with time slots in Ruby
 date: 2016-01-29
 tags: Ruby, Rails
 published: true
-reading_time: 5
 ---
 
 When i was working for a client on a Ruby on Rails application dealing with multiples time slots,

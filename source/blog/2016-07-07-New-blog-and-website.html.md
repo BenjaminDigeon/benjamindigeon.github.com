@@ -3,7 +3,6 @@ title: New blog and website
 date: 2016-07-07
 tags: blog
 published: true
-reading_time: 2
 ---
 
 After many years with a old [Octopress](https://github.com/octopress/octopress) blog who had only one post published Apr 27th, 2012.

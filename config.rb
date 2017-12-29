@@ -1,7 +1,8 @@
 require 'slim'
 require 'better_errors'
-require "lib/build_cleaner"
-require "lib/custom_helpers"
+require 'lib/build_cleaner'
+require 'lib/custom_helpers'
+require 'lib/reading_time'
 
 # ---- Global configuration ---- #
 
@@ -69,6 +70,9 @@ end
 
 # ----- Disable Rack::ShowExceptions middleware ----- #
 set :show_exceptions, false
+
+# ----- Activate Reading Time Extension ----- #
+activate :reading_time
 
 # ----- Configurations ----- #
 

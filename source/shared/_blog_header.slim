@@ -2,9 +2,8 @@
   .col-md-8
     .blog-date
       time = post.date.strftime('%b %e %Y')
-      |  •  
-      = post.data.reading_time
-      |  min read
+      |  •
+      = " #{reading_time post.body}"
   .col-md-4
     - post.tags.each do |tag|
       .blog-tag  = tag

@@ -3,7 +3,6 @@ title: Elixir and Phoenix, a little journey inside functional programming - Part
 date: 2017-03-10
 tags: Elixir, Phoenix
 published: false
-reading_time: 5
 ---
 
 ![elixir-logo](/assets/images/blog/2017-03-10-elixir-and-phoenix-part1/elixir-logo.png)
