@@ -1,22 +1,27 @@
-# Website
-
-At [benjamindigeon.github.io](http://benjamindigeon.github.io/)
+# Personal Website
 
 ## Initialization
 
-  bundle install
+```bash
+bundle install
+```
 
 ## Development
 
-  bundle exec middleman
+```bash
+bundle exec middleman
+```
 
 ## Deploy
 
-  bundle exec middleman deploy
+```bash
+bundle exec middleman deploy
+```
 
 ## Blogging
-
-  middleman article TITLE
+```bash
+middleman article TITLE
+```
 
 ## Branches
 

@@ -17,7 +17,7 @@ gem 'slim'
 gem 'redcarpet'
 
 # For feed.xml.builder
-gem "builder"
+gem 'builder'
 
 gem 'nokogiri'
 gem 'better_errors'
