@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Benjamin Digeon website" name="description" />
+    <meta content="Benjamin Digeon" name="author" />
+    <link href="/assets/images/favicon.ico" rel="shortcut icon" />
+    <title>Benjamin Digeon</title>
+    <link href="/assets/stylesheets/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/stylesheets/vendor/imagehover/imagehover.css" rel="stylesheet" />
+    <link href="/assets/stylesheets/main.css" rel="stylesheet" />
+    <link href="/assets/stylesheets/highlight.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/">Benjamin Digeon</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/about">About</a>
+            </li>
+            <li>
+              <a href="/talks">Talks</a>
+            </li>
+            <li>
+              <a href="/blog">Blog</a>
+            </li>
+            <li>
+              <a href="/contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div><article>
+  <div id="white">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <h1>
+            Overlapping issues with time slots in Ruby
+          </h1>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="blog-date">
+                <time>Jan 29 2016</time> • 2  minutes read
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="blog-tag">
+                Ruby
+              </div>
+              <div class="blog-tag">
+                Rails
+              </div>
+            </div>
+          </div>
+          <hr /><p>When i was working for a client on a Ruby on Rails application dealing with multiples time slots,
+i find myself with a rather complex problem.</p>
+
+<h2>Time Slots</h2>
+
+<p>To manage user schedules, the application has an object <code>TimeSlot</code> which represents a period of time between <code>start_date</code> and <code>end_date</code>.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">TimeSlot</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+  <span class="n">attr_accessible</span> <span class="ss">:end_date</span><span class="p">,</span> <span class="ss">:start_date</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Simple enough right ? But the user can have several <code>TimeSlot</code> at the same time, and of course it can midway between two days.</p>
+
+<p>And i need to calculate the number of hours used by days.</p>
+
+<p>But i have a main problem : Overlapping time slots.</p>
+
+<h2>Overlapping Issue</h2>
+
+<h3>Range of DateTime</h3>
+
+<p>Luckily we can solve this rather complex problem using the ruby
+<a href="http://ruby-doc.org/core-1.9.3/Range.html">Range</a> class.</p>
+
+<blockquote>
+<p>A Range represents an interval—a set of values with a start and an end.</p>
+
+<p>Ranges can be constructed using objects of any type, as long as the objects
+can be compared using their &lt;=&gt; operator and they support the succ method
+to return the next object in sequence.</p>
+</blockquote>
+
+<p>So we can convert all ours <code>TimeSlot</code> objects into <code>Range</code> of <code>DateTime</code> with a little helper.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">to_time_range</span>
+  <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="nf">start_date</span><span class="o">..</span><span class="nb">self</span><span class="p">.</span><span class="nf">end_date</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>We&rsquo;re going to need some utility methods for check if a range overlap another
+and for merging two range together.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">ranges_overlap?</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="n">a</span><span class="p">.</span><span class="nf">cover?</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="nf">begin</span><span class="p">)</span> <span class="o">||</span> <span class="n">b</span><span class="p">.</span><span class="nf">cover?</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="nf">begin</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">merge_ranges</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="p">[</span><span class="n">a</span><span class="p">.</span><span class="nf">begin</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="nf">begin</span><span class="p">].</span><span class="nf">min</span><span class="o">..</span><span class="p">[</span><span class="n">a</span><span class="p">.</span><span class="nf">end</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="nf">end</span><span class="p">].</span><span class="nf">max</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Now we just need to check inside the array of ranges, if some range overlap another and merge it.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">merge_overlapping_ranges</span><span class="p">(</span><span class="n">ranges</span><span class="p">)</span>
+  <span class="n">ranges</span><span class="p">.</span><span class="nf">sort_by</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:begin</span><span class="p">).</span><span class="nf">inject</span><span class="p">([])</span> <span class="k">do</span> <span class="o">|</span><span class="n">ranges</span><span class="p">,</span> <span class="n">range</span><span class="o">|</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">ranges</span><span class="p">.</span><span class="nf">empty?</span> <span class="o">&amp;&amp;</span> <span class="n">ranges_overlap?</span><span class="p">(</span><span class="n">ranges</span><span class="p">.</span><span class="nf">last</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span>
+      <span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="o">...-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">merge_ranges</span><span class="p">(</span><span class="n">ranges</span><span class="p">.</span><span class="nf">last</span><span class="p">,</span> <span class="n">range</span><span class="p">)]</span>
+    <span class="k">else</span>
+      <span class="n">ranges</span> <span class="o">+</span> <span class="p">[</span><span class="n">range</span><span class="p">]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Thank to this <a href="http://stackoverflow.com/a/6018744/1361310">thread on Stackoverflow</a>.</p>
+
+          <hr />
+          <div id='disqus_thread'></div>
+          <script type='text/javascript'>
+          //<![CDATA[
+                            var disqus_shortname = 'benjamindigeon';
+                    
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          //]]>
+          </script>
+          <noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+          <a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+          <script type="text/javascript">
+          //<![CDATA[
+              var disqus_shortname = 'benjamindigeon';
+              (function () {
+                  var s = document.createElement('script'); s.async = true;
+                  s.type = 'text/javascript';
+                  s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+                  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+              }());
+          //]]>
+          </script>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</article><div id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <h4>
+              License
+            </h4>
+            <p>
+              This website is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <h4>
+              My Links
+            </h4>
+            <p>
+              <a href="https://github.com/BenjaminDigeon">Github</a><br /><a href="https://twitter.com/todiann">Twitter</a><br /><a href="https://fr.linkedin.com/in/benjamindigeon">Linkedin</a><br /><a href="/feed.xml">Flux RSS</a>
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <h4>
+              About
+            </h4>
+            <p>
+              Made with <span class="glyphicon glyphicon-heart" style="font-size:1em;"></span> using  <a href="https://middlemanapp.com/">Middleman </a>on a theme from <a href="http://blacktie.co/">Blacktie </a>and host on <a href="https://pages.github.com/">Github Pages</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <script src="/assets/javascripts/bootstrap.min.js"></script>
+    </div><script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-31671208-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
