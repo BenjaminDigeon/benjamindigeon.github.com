@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.4.1'
+ruby '3.0.0'
 
 # Middleman Gems
 gem 'middleman'
@@ -21,3 +21,6 @@ gem 'builder'
 
 gem 'nokogiri'
 gem 'better_errors'
+
+# Local webserver for dev
+gem 'webrick'
