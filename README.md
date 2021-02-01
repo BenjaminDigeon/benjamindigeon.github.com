@@ -24,5 +24,5 @@ middleman article TITLE
 
 ## Branches
 
-  * `master` : build of the website
   * `source` : source code
+  * `gh-pages` : build of the website
