@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Benjamin Digeon</title>
+  <subtitle>My personal website</subtitle>
+  <id>http://benjamindigeon.github.io/blog</id>
+  <link href="http://benjamindigeon.github.io/blog"/>
+  <link href="http://benjamindigeon.github.io/feed.xml" rel="self"/>
+  <updated>2016-07-06T22:00:00+00:00</updated>
+  <author>
+    <name>Benjamin Digeon</name>
+  </author>
+  <entry>
+    <title>New blog and website</title>
+    <link rel="alternate" href="http://benjamindigeon.github.io/blog/2016-07-07-new-blog-and-website/"/>
+    <id>http://benjamindigeon.github.io/blog/2016-07-07-new-blog-and-website/</id>
+    <published>2016-07-06T22:00:00+00:00</published>
+    <updated>2021-02-01T09:30:12+00:00</updated>
+    <author>
+      <name>Benjamin Digeon</name>
+    </author>
+    <content type="html">&lt;p&gt;After many years with a old &lt;a href="https://github.com/octopress/octopress"&gt;Octopress&lt;/a&gt; blog who had only one post published Apr 27th, 2012.&lt;/p&gt;
+
+&lt;p&gt;I decided to redo entirely my blog and my website with &lt;a href="https://middlemanapp.com/"&gt;Middleman&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So what&amp;rsquo;s new since 2012 in my life, a few things actualy :&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The end of the world did not happen, but a good film was &lt;a href="http://www.imdb.com/title/tt1213663/"&gt;released on the subject&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;I finished my studies.&lt;/li&gt;
+&lt;li&gt;I become a Freelance.&lt;/li&gt;
+&lt;li&gt;And i&amp;rsquo;m also a teacher at &lt;a href="https://www.lewagon.com/fr/lille"&gt;Le Wagon&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I&amp;rsquo;ll try to do more blog post this year with more technical topics.&lt;/p&gt;
+
+&lt;p&gt;You can check some of &lt;a href="/work"&gt;my work&lt;/a&gt; as a Freelance, check &lt;a href="/talks"&gt;my talks&lt;/a&gt;, learn a &lt;a href="/about"&gt;little more about myself&lt;/a&gt; or just &lt;a href="/contact"&gt;contact me&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;See you soon !&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Overlapping issues with time slots in Ruby</title>
+    <link rel="alternate" href="http://benjamindigeon.github.io/blog/2016-01-29-overlapping-issues-with-time-slots-in-ruby/"/>
+    <id>http://benjamindigeon.github.io/blog/2016-01-29-overlapping-issues-with-time-slots-in-ruby/</id>
+    <published>2016-01-28T23:00:00+00:00</published>
+    <updated>2021-02-01T09:30:12+00:00</updated>
+    <author>
+      <name>Benjamin Digeon</name>
+    </author>
+    <content type="html">&lt;p&gt;When i was working for a client on a Ruby on Rails application dealing with multiples time slots,
+i find myself with a rather complex problem.&lt;/p&gt;
+
+&lt;h2&gt;Time Slots&lt;/h2&gt;
+
+&lt;p&gt;To manage user schedules, the application has an object &lt;code&gt;TimeSlot&lt;/code&gt; which represents a period of time between &lt;code&gt;start_date&lt;/code&gt; and &lt;code&gt;end_date&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TimeSlot&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt;
+  &lt;span class="n"&gt;attr_accessible&lt;/span&gt; &lt;span class="ss"&gt;:end_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:start_date&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Simple enough right ? But the user can have several &lt;code&gt;TimeSlot&lt;/code&gt; at the same time, and of course it can midway between two days.&lt;/p&gt;
+
+&lt;p&gt;And i need to calculate the number of hours used by days.&lt;/p&gt;
+
+&lt;p&gt;But i have a main problem : Overlapping time slots.&lt;/p&gt;
+
+&lt;h2&gt;Overlapping Issue&lt;/h2&gt;
+
+&lt;h3&gt;Range of DateTime&lt;/h3&gt;
+
+&lt;p&gt;Luckily we can solve this rather complex problem using the ruby
+&lt;a href="http://ruby-doc.org/core-1.9.3/Range.html"&gt;Range&lt;/a&gt; class.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A Range represents an interval—a set of values with a start and an end.&lt;/p&gt;
+
+&lt;p&gt;Ranges can be constructed using objects of any type, as long as the objects
+can be compared using their &amp;lt;=&amp;gt; operator and they support the succ method
+to return the next object in sequence.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So we can convert all ours &lt;code&gt;TimeSlot&lt;/code&gt; objects into &lt;code&gt;Range&lt;/code&gt; of &lt;code&gt;DateTime&lt;/code&gt; with a little helper.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;to_time_range&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;start_date&lt;/span&gt;&lt;span class="o"&gt;..&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;end_date&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We&amp;rsquo;re going to need some utility methods for check if a range overlap another
+and for merging two range together.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;ranges_overlap?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;cover?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;cover?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;merge_ranges&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="nf"&gt;min&lt;/span&gt;&lt;span class="o"&gt;..&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;end&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;end&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="nf"&gt;max&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now we just need to check inside the array of ranges, if some range overlap another and merge it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;merge_overlapping_ranges&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;sort_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="ss"&gt;:begin&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;inject&lt;/span&gt;&lt;span class="p"&gt;([])&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;empty?&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;ranges_overlap?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;last&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;...-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;merge_ranges&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ranges&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;last&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+      &lt;span class="n"&gt;ranges&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Thank to this &lt;a href="http://stackoverflow.com/a/6018744/1361310"&gt;thread on Stackoverflow&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+</feed>
