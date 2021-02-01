@@ -14,16 +14,15 @@ bundle exec middleman
 
 ## Deploy
 
-```bash
-bundle exec middleman deploy
-```
+Automatic deploy with Github actions when push to `source`
 
 ## Blogging
+
 ```bash
 middleman article TITLE
 ```
 
 ## Branches
 
-  * master : build of the website
-  * source : source code
+  * `master` : build of the website
+  * `source` : source code

@@ -1,15 +1,10 @@
 require 'slim'
 require 'better_errors'
-require 'lib/build_cleaner'
-require 'lib/custom_helpers'
 require 'lib/reading_time'
 
 # ---- Global configuration ---- #
 
 Time.zone = "Paris"
-
-# ---- Helpers ---- #
-helpers CustomHelpers
 
 # ----- Paths ----- #
 
@@ -58,16 +53,6 @@ activate :syntax
 set :markdown_engine, :redcarpet
 set :markdown, :fenced_code_blocks => true, :smartypants => true
 
-# ----- Deployment ----- #
-
-activate :deploy do |deploy|
-  deploy.deploy_method = :git
-  deploy.remote   = 'origin'
-  deploy.branch   = 'master'
-  deploy.strategy = :force_push
-  deploy.build_before = true
-end
-
 # ----- Disable Rack::ShowExceptions middleware ----- #
 set :show_exceptions, false
 
@@ -85,8 +70,6 @@ end
 
 # Build-specific configurations
 configure :build do
-  # For solving Middleman 4 build issues
-  activate :build_cleaner
 
   # Minify CSS on build
   activate :minify_css
