@@ -1,0 +1,40 @@
+name: Deploy Middleman to GH Pages
+
+on:
+  push:
+    branches: [source]
+
+jobs:
+  build:
+    name: Build website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with: 
+          ruby-version: '3.0'
+
+      - name: Ruby gem cache
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install Gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Build Middleman
+        run: bundle exec middleman build
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
